@@ -11,5 +11,3 @@ __pycache__/
 # Bases de datos locales
 *.db
 
-# Archivos de configuración sensibles
-contexto_asistente.json
