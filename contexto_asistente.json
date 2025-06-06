@@ -1,0 +1,73 @@
+{
+  "equipo": [
+    {
+      "nombre": "Dra. Ailed Hernández Parra",
+      "especialidad": "Medicina estética, obesidad, biohormonas",
+      "titulo": "Médico Cirujano (UAEM), Maestra en Salud Pública, miembro de SCOPE"
+    },
+    {
+      "nombre": "Dr. Williams Barrios",
+      "especialidad": "Pediatría, obesidad, cirugía plástica (en proceso de revalidación)",
+      "titulo": "Pediatra (UNAM), formación en cirugía plástica (Instituto Carlos Chagas, Brasil)"
+    },
+    {
+      "nombre": "Lic. Valeria Montes de Oca",
+      "especialidad": "Nutrición y seguimiento",
+      "titulo": "Lic. en Nutrición, Educadora en Diabetes, Cosmétologa"
+    },
+    {
+      "nombre": "Alejandra Córdoba",
+      "especialidad": "Cosmetología",
+      "titulo": "Cosmetóloga en sucursal Metepec"
+    },
+    {
+      "nombre": "Lic. Reyna Sánchez",
+      "especialidad": "Nutrición, psicología, cosmetología",
+      "titulo": "Actualmente en licencia por maternidad",
+      "disponible": false
+    }
+  ],
+  "sucursales": [
+    {
+      "nombre": "Metepec",
+      "direccion": "Calle Pedro Ascencio 529-local 2 y 3, Santa Cruz, 52140 Metepec, Méx.",
+      "telefono": "722 402 6010",
+      "mostrar_personal": true
+    },
+    {
+      "nombre": "CDMX",
+      "direccion": "Av. Insurgentes Sur 1809, primer piso, Guadalupe Inn, Álvaro Obregón, 01020 CDMX",
+      "telefono": "Se agenda y se confirma",
+      "mostrar_personal": false
+    },
+    {
+      "nombre": "Atlacomulco",
+      "direccion": "Plaza Los Geranios, Cda. Juan de Dios Peza 477-local 6, La Ascención, 50450 Atlacomulco, Méx.",
+      "telefono": "Se agenda y se confirma",
+      "mostrar_personal": false
+    }
+  ],
+  "horarios": {
+    "Dra. Ailed": "Lunes a viernes 9:00–14:00 y lunes/viernes 17:00–20:00",
+    "Dr. Williams": "Lunes a viernes 10:00–14:00 y lunes/miércoles/viernes 17:00–20:00",
+    "Valeria": "Lunes a viernes 9:00–18:00",
+    "Alejandra": "Lunes a viernes 9:00–18:00",
+    "Sábado": "Todos los profesionales 8:00–15:00"
+  },
+  "faq": {
+    "¿Cada cuánto son las consultas?": "Lo ideal es cada semana para lograr una pérdida de 6 a 8 kg por mes. También puede ser cada 15 días o cada mes dependiendo del paciente.",
+    "¿Qué servicios ofrecen?": "Control de peso, moldeamiento corporal (criolipólisis, cavitación, enzimas), medicina estética (Botox, PRP, rellenos), faciales, masajes y tratamientos especializados de spa.",
+    "¿Son médicos o nutriólogos?": "Contamos con médicos bariatras, especialistas en obesidad y nutriólogos certificados por universidades como UNAM, UAEM, IBERO, entre otras.",
+    "¿En qué consiste el tratamiento para bajar de peso?": "Historia clínica, plan de alimentación personalizado, posible uso de medicamentos para apetito y aplicación de intradermoterapia. Se puede acompañar con aparatología para moldeamiento."
+  },
+  "info_procedimientos": {
+    "enzimas": "Mezcla de lipasa, colagenasa e hialuronidasa que elimina grasa localizada, mejora la piel y reduce celulitis. Se aplica en abdomen, brazos, muslos y papada.",
+    "hidrafacial": "Limpieza profunda, hidratación y microdermoabrasión para eliminar impurezas, hidratar y suavizar la piel.",
+    "plasma rico en plaquetas": "Rejuvenecimiento facial con componentes de la sangre del paciente. Hidratación profunda, disminución de pigmentaciones y líneas de expresión.",
+    "criolipolisis": "Tratamiento que congela las células grasas para eliminarlas sin cirugía. Efectivo en abdomen, espalda y muslos.",
+    "cavitación": "Uso de ultrasonido para romper grasa localizada.",
+    "electroestimulación": "Impulsos eléctricos que provocan contracción muscular. Ideal para tonificación.",
+    "masaje relajante": "Terapia corporal con aceites esenciales. Dura 30 min. Incluye espalda, cabeza y piernas.",
+    "microdermoabrasion": "Masaje facial con punta de diamante que elimina células muertas y mejora líneas de expresión y cicatrices."
+  }
+}
