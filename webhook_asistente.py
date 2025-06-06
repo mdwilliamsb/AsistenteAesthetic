@@ -7,14 +7,15 @@ from respuesta_asistente_gpt import generar_respuesta_asistente
 
 router = APIRouter()
 
-# Configuración desde entorno
+# Configuración de entorno
 VERIFY_TOKEN = os.getenv("VERIFY_TOKEN", "asistente123")
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
 WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
 
+# Activar logging
 logging.basicConfig(level=logging.INFO)
 
-# --- Verificación de webhook (GET) ---
+# Verificación del Webhook (GET)
 @router.get("/webhook")
 async def verify_webhook(request: Request):
     mode = request.query_params.get("hub.mode")
@@ -25,7 +26,7 @@ async def verify_webhook(request: Request):
         return PlainTextResponse(content=challenge, status_code=200)
     return PlainTextResponse("Forbidden", status_code=403)
 
-# --- Recepción de mensajes (POST) ---
+# Recepción de mensajes (POST)
 @router.post("/webhook")
 async def recibir_mensaje(request: Request):
     try:
@@ -49,7 +50,7 @@ async def recibir_mensaje(request: Request):
         numero = mensaje.get("from")
 
         if texto_usuario and numero:
-            respuesta = generar_respuesta_asistente(texto_usuario)
+            respuesta = generar_respuesta_asistente(texto_usuario, numero)
             enviar_respuesta(numero, respuesta)
             logging.info(f"✅ Respuesta enviada a {numero}")
         else:
@@ -61,7 +62,7 @@ async def recibir_mensaje(request: Request):
         logging.error(f"❌ Error procesando el webhook: {e}")
         return PlainTextResponse("Error interno", status_code=500)
 
-# --- Función para enviar respuesta por WhatsApp ---
+# Enviar respuesta por WhatsApp
 def enviar_respuesta(numero: str, mensaje: str):
     if not WHATSAPP_TOKEN or not WHATSAPP_PHONE_NUMBER_ID:
         logging.error("❌ WHATSAPP_TOKEN o WHATSAPP_PHONE_NUMBER_ID no están definidos.")
