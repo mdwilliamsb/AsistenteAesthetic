@@ -7,7 +7,7 @@ gpt = OpenAI()
 def generar_resumen_equipo(contexto):
     try:
         return "\n".join([
-            f"- {p['nombre']}: {p['especialidad']}" 
+            f"- {p['nombre']}: {p['especialidad']}"
             for p in contexto['equipo'] if p.get('disponible', True)
         ])
     except Exception as e:
@@ -63,4 +63,3 @@ def generar_respuesta_asistente(mensaje_usuario: str) -> str:
     except Exception as e:
         logging.error(f"❌ Error generando respuesta con GPT: {e}")
         return "Lo siento, hubo un problema al generar la respuesta. Intenta nuevamente más tarde."
-
