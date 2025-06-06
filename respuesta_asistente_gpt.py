@@ -1,6 +1,7 @@
 import logging
 from openai import OpenAI
 from asistente_contexto import cargar_contexto_asistente
+from db import obtener_historial, guardar_conversacion
 
 gpt = OpenAI()
 
@@ -14,7 +15,7 @@ def generar_resumen_equipo(contexto):
         logging.error(f"❌ Error generando resumen del equipo: {e}")
         return ""
 
-def generar_prompt_asistente(contexto, mensaje_usuario):
+def generar_prompt_asistente(contexto, mensaje_usuario, historial=""):
     try:
         resumen_equipo = generar_resumen_equipo(contexto)
         resumen_servicios = contexto['faq'].get("¿Qué servicios ofrecen?", "")
@@ -26,6 +27,7 @@ def generar_prompt_asistente(contexto, mensaje_usuario):
 
         prompt = (
             f"Eres la asistente virtual de Aesthetic Center. Tu tono es humano, profesional y cálido.\n\n"
+            f"{historial}\n\n"
             f"Profesionales disponibles:\n{resumen_equipo}\n\n"
             f"Servicios destacados:\n{resumen_servicios}\n\n"
             f"{info_extra}\n\n"
@@ -37,10 +39,11 @@ def generar_prompt_asistente(contexto, mensaje_usuario):
         logging.error(f"❌ Error generando prompt: {e}")
         return f"Mensaje del paciente: {mensaje_usuario}"
 
-def generar_respuesta_asistente(mensaje_usuario: str) -> str:
+def generar_respuesta_asistente(mensaje_usuario: str, wa_id: str) -> str:
     try:
         contexto = cargar_contexto_asistente()
-        prompt = generar_prompt_asistente(contexto, mensaje_usuario)
+        historial = obtener_historial(wa_id)
+        prompt = generar_prompt_asistente(contexto, mensaje_usuario, historial)
 
         respuesta = gpt.chat.completions.create(
             model="gpt-4",
@@ -48,12 +51,9 @@ def generar_respuesta_asistente(mensaje_usuario: str) -> str:
                 {
                     "role": "system",
                     "content": (
-                        "Eres una asistente humana de Aesthetic Center. "
-                        "Siempre respondes con empatía, calidez y profesionalismo. "
-                        "Tus respuestas son claras, amables, breves y conversacionales. "
-                        "Nunca usas lenguaje robótico. Hablas como una persona real. "
-                        "Si puedes ayudar, lo haces con entusiasmo. Si necesitas redirigir, lo haces con cortesía. "
-                        "Siempre pareces atenta, presente y feliz de ayudar.
+                        "Eres una asistente virtual especializada en atención al cliente de una clínica estética. "
+                        "No das diagnósticos médicos, pero sabes orientar sobre servicios, especialistas y horarios. "
+                        "Siempre respondes de forma clara, profesional y empática."
                     )
                 },
                 {"role": "user", "content": prompt}
@@ -61,7 +61,9 @@ def generar_respuesta_asistente(mensaje_usuario: str) -> str:
             temperature=0.6
         )
 
-        return respuesta.choices[0].message.content.strip()
+        texto_respuesta = respuesta.choices[0].message.content.strip()
+        guardar_conversacion(wa_id, mensaje_usuario, texto_respuesta)
+        return texto_respuesta
 
     except Exception as e:
         logging.error(f"❌ Error generando respuesta con GPT: {e}")

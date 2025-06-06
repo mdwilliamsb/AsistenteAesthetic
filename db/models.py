@@ -1,34 +1,40 @@
-import sqlite3
-from pathlib import Path
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
+import datetime
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "db" / "aesthetic.db"
+Base = declarative_base()
 
-def crear_tablas():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+class Paciente(Base):
+    __tablename__ = "pacientes"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String)
+    telefono = Column(String, unique=True)
+    fecha_nacimiento = Column(String)
+    historial = Column(Text)
+    conversaciones = relationship("Conversacion", back_populates="paciente")
+    citas = relationship("Cita", back_populates="paciente")
 
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS pacientes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT,
-            telefono TEXT UNIQUE,
-            fecha_nacimiento TEXT,
-            historial TEXT
-        )
-    ''')
+class Cita(Base):
+    __tablename__ = "citas"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    paciente_id = Column(Integer, ForeignKey("pacientes.id"))
+    fecha = Column(String)
+    hora = Column(String)
+    especialista = Column(String)
+    confirmada = Column(Boolean, default=False)
+    paciente = relationship("Paciente", back_populates="citas")
 
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS citas (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            paciente_id INTEGER,
-            fecha TEXT,
-            hora TEXT,
-            especialista TEXT,
-            confirmada BOOLEAN DEFAULT 0,
-            FOREIGN KEY (paciente_id) REFERENCES pacientes(id)
-        )
-    ''')
+class Conversacion(Base):
+    __tablename__ = "conversaciones"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    paciente_id = Column(Integer, ForeignKey("pacientes.id"))
+    mensaje = Column(Text)
+    respuesta = Column(Text)
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    paciente = relationship("Paciente", back_populates="conversaciones")
 
-    conn.commit()
-    conn.close()
+# Configuración de la base de datos
+engine = create_engine("sqlite:///asistente_memoria.db")
+Base.metadata.create_all(engine)
+SessionLocal = sessionmaker(bind=engine)

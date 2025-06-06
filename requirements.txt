@@ -4,3 +4,5 @@ requests
 openai
 python-dotenv
 apscheduler
+sqlalchemy
+
